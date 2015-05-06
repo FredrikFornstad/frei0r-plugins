@@ -3,14 +3,14 @@
 Summary: A minimalistic plugin API for video effects
 Name: frei0r-plugins
 Version: 1.4
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: GPLv2+
 Group: System Environment/Libraries
 URL: http://frei0r.dyne.org/
 Source0: https://files.dyne.org/frei0r/releases/frei0r-plugins-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: opencv-devel >= 1.0.0, gavl-devel >= 0.2.3
-BuildRequires: autoconf
+BuildRequires: autoconf, atrpms-rpm-config
 
 # %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
@@ -50,6 +50,9 @@ rm -rf %{buildroot}
 %{_libdir}/frei0r-1
 
 %changelog
+* Wed May 6 2015 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.4-4
+- Added buildrequirement atrpms-rpm-config
+
 * Fri May 1 2015 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.4-3
 - Remove one unused doc-dir when compiling on ClearOS 7
 - Changed Source0 url from ftp to https since the ftp server is not responding
