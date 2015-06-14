@@ -10,7 +10,7 @@ URL: http://frei0r.dyne.org/
 Source0: https://files.dyne.org/frei0r/releases/frei0r-plugins-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: opencv-devel >= 1.0.0, gavl-devel >= 0.2.3
-BuildRequires: autoconf, atrpms-rpm-config
+BuildRequires: autoconf
 
 # %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
 
@@ -20,6 +20,14 @@ Frei0r is a minimalistic plugin API for video effects.
 The main emphasis is on simplicity for an API that will round up the
 most common video effects into simple filters, sources and mixers that
 can be controlled by parameters.
+
+%package devel
+Summary: frei0r-plugins development files.
+Group: Development/Libraries
+Requires: %{name} = %{version}
+
+%description devel
+This package contains the frei0r-plugins development files.
 
 %prep
 %setup -q
@@ -49,9 +57,14 @@ rm -rf %{buildroot}
 %doc AUTHORS COPYING ChangeLog README TODO
 %{_libdir}/frei0r-1
 
+%files devel
+%defattr(-,root,root,-)
+%{_includedir}/frei0r.h
+%{_libdir}/pkgconfig/frei0r.pc
+
 %changelog
-* Wed May 6 2015 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.4-4
-- Added buildrequirement atrpms-rpm-config
+* Sat Jun 13 2015 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.4-4
+- Removed dependency on atrpms rpm scripts to comply with ClearOS policy
 
 * Fri May 1 2015 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.4-3
 - Remove one unused doc-dir when compiling on ClearOS 7
