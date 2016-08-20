@@ -2,8 +2,8 @@
 
 Summary: A minimalistic plugin API for video effects
 Name: frei0r-plugins
-Version: 1.4
-Release: 4%{?dist}
+Version: 1.5.0
+Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Libraries
 URL: http://frei0r.dyne.org/
@@ -33,6 +33,12 @@ This package contains the frei0r-plugins development files.
 %setup -q
 
 %build
+mv TODO.txt TODO
+mv README.txt README
+mv AUTHORS.txt AUTHORS
+mv ChangeLog.txt ChangeLog
+aclocal
+automake
 %configure --disable-static
 make
 
@@ -63,6 +69,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/frei0r.pc
 
 %changelog
+* Sat Aug 20 2016 Fredrik Fornstad <fredrdik.fornstad@gmail.com> - 1.5.0-1
+- New upstream release
+
 * Sat Jun 13 2015 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.4-4
 - Removed dependency on atrpms rpm scripts to comply with ClearOS policy
 
