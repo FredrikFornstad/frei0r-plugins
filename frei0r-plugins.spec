@@ -3,11 +3,15 @@
 Summary: A minimalistic plugin API for video effects
 Name: frei0r-plugins
 Version: 1.5.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: GPLv2+
 Group: System Environment/Libraries
 URL: http://frei0r.dyne.org/
 Source0: https://files.dyne.org/frei0r/releases/frei0r-plugins-%{version}.tar.gz
+Source1: Makefile.in
+Source2: Makefile.in_doc
+Source3: Makefile.in_include
+Source4: Makefile.in_src
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: opencv-devel >= 1.0.0, gavl-devel >= 0.2.3
 BuildRequires: autoconf
@@ -31,14 +35,19 @@ This package contains the frei0r-plugins development files.
 
 %prep
 %setup -q
+%__cp %{SOURCE1} .
+%__cp %{SOURCE2} .
+%__cp %{SOURCE3} .
+%__cp %{SOURCE4} .
 
 %build
 mv TODO.txt TODO
 mv README.txt README
 mv AUTHORS.txt AUTHORS
 mv ChangeLog.txt ChangeLog
-aclocal
-automake
+mv Makefile.in_doc doc/Makefile.in
+mv Makefile.in_include include/Makefile.in
+mv Makefile.in_src src/Makefile.in
 %configure --disable-static
 make
 
@@ -69,7 +78,10 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/frei0r.pc
 
 %changelog
-* Sat Aug 20 2016 Fredrik Fornstad <fredrdik.fornstad@gmail.com> - 1.5.0-1
+* Sun Aug 21 2016 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.5.0-2
+- removed .txt from some file names and adding Makefile.in files to adjust for new upstream packaging
+
+* Sat Aug 20 2016 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.5.0-1
 - New upstream release
 
 * Sat Jun 13 2015 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.4-4
