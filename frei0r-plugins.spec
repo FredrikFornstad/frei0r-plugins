@@ -2,21 +2,15 @@
 
 Summary: A minimalistic plugin API for video effects
 Name: frei0r-plugins
-Version: 1.5.0
-Release: 2%{?dist}
+Version: 1.6.0
+Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Libraries
 URL: http://frei0r.dyne.org/
 Source0: https://files.dyne.org/frei0r/releases/frei0r-plugins-%{version}.tar.gz
-Source1: Makefile.in
-Source2: Makefile.in_doc
-Source3: Makefile.in_include
-Source4: Makefile.in_src
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: opencv-devel >= 1.0.0, gavl-devel >= 0.2.3
-BuildRequires: autoconf
-
-# %{!?_pkgdocdir: %global _pkgdocdir %{_docdir}/%{name}-%{version}}
+BuildRequires: autoconf, libtool
 
 %description
 Frei0r is a minimalistic plugin API for video effects.
@@ -35,34 +29,23 @@ This package contains the frei0r-plugins development files.
 
 %prep
 %setup -q
-%__cp %{SOURCE1} .
-%__cp %{SOURCE2} .
-%__cp %{SOURCE3} .
-%__cp %{SOURCE4} .
 
 %build
+mkdir -p m4
 mv TODO.txt TODO
 mv README.txt README
 mv AUTHORS.txt AUTHORS
 mv ChangeLog.txt ChangeLog
-mv Makefile.in_doc doc/Makefile.in
-mv Makefile.in_include include/Makefile.in
-mv Makefile.in_src src/Makefile.in
+autoreconf -i
 %configure --disable-static
-make
+make %(?_smp_mflags)
 
 %install
-rm -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+# rm -rf %{buildroot}
+make install DESTDIR=%{buildroot} INSTALL="install -p"
 
- if test "%{_docdir}/%{name}" != "%{_pkgdocdir}"; then
-  mkdir -p %{buildroot}%{_pkgdocdir}
-  mv %{buildroot}%{_docdir}/%{name}/* %{buildroot}%{_pkgdocdir}
-  rmdir %{buildroot}%{_docdir}/%{name}
- fi
 # Doc files gets installed in two libraries, remove one
 rm -rf %{buildroot}%{_docdir}/%{name}
-
 
 %clean
 rm -rf %{buildroot}
@@ -78,6 +61,10 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/frei0r.pc
 
 %changelog
+* Sat Apr 8 2017 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.6.0-1
+- New upstream release
+- Modified spec file
+
 * Sun Aug 21 2016 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.5.0-2
 - removed .txt from some file names and adding Makefile.in files to adjust for new upstream packaging
 
