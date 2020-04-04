@@ -2,7 +2,7 @@
 
 Summary: A minimalistic plugin API for video effects
 Name: frei0r-plugins
-Version: 1.6.1
+Version: 1.7.0
 Release: 1%{?dist}
 License: GPLv2+
 Group: System Environment/Libraries
@@ -34,6 +34,11 @@ This package contains the frei0r-plugins development files.
 mkdir -p m4
 autoreconf -i
 %configure --disable-static
+# frei0r makefile expecting other file names
+mv README.txt README.md
+mv ChangeLog.txt ChangeLog
+mv TODO.txt TODO
+mv AUTHORS.txt AUTHORS
 make %(?_smp_mflags)
 
 %install
@@ -48,7 +53,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS.txt COPYING.txt ChangeLog.txt README.txt TODO.txt
+%doc AUTHORS COPYING.txt ChangeLog README.md TODO
 %{_libdir}/frei0r-1
 
 %files devel
@@ -57,6 +62,9 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/frei0r.pc
 
 %changelog
+* Sat Apr 4 2020 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.7.0-1
+- New upstream release
+
 * Mon Jun 5 2017 Fredrik Fornstad <fredrik.fornstad@gmail.com> - 1.6.1-1
 - New upstream release
 - Added .txt back to some files to adjust for upstream build changes
